@@ -39,6 +39,7 @@ doc/
 
 # Uploaded files and local files
 public/uploads/
+public/images/
 public/assets/
 public/source.tar*
 public/.well-known

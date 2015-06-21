@@ -17,22 +17,7 @@
   weight : normal;
 }
 
-body, p, h1, h2, h3, h4, h5, h6, textarea, input, * {
+body, p, h1, h2, h3, h4, h5, h6, textarea, input {
   font-family : "Helvetica Neue", Helvetica, sans-serif;
   font-weight : normal;
-}
-
-h1,h2,h3,h4,h5,h6 {
-    color: #999 !important;
-}
-
-p {
-    color: #fff !important;
-}
-li {
-    color: #0D47BF !important;
-}
-
-a {
-  font-family : inherit;
 }

@@ -14,7 +14,7 @@
 //= require_tree ./collections
 //= require_tree ./views
 
-//= require perfect-scrollbar
+//= require perfect-scrollbar/perfect-scrollbar.jquery
 
 var app = {
   collections: {},
@@ -101,11 +101,25 @@ var app = {
 
     // there's probably a better way to do this...
     $(document).on("click", "a[rel=backbone]", function(evt){
+      if (!(app.stream && /^\/(?:stream|activity|aspects|public|mentions|likes)/.test(app.stream.basePath()))) {
+        // We aren't on a regular stream page
+        return;
+      }
+
       evt.preventDefault();
       var link = $(this);
+      if(link.data("stream-title") && link.data("stream-title").length) {
+        $(".stream_title").text(link.data("stream-title"));
+      } else {
+        $(".stream_title").text(link.text());
+      }
 
-      $(".stream_title").text(link.text());
-      app.router.navigate(link.attr("href").substring(1) ,true);
+      $("html, body").animate({scrollTop: 0});
+
+      // app.router.navigate doesn't tell us if it changed the page,
+      // so we use Backbone.history.navigate instead.
+      var change = Backbone.history.navigate(link.attr("href").substring(1) ,true);
+      if(change === undefined) { Backbone.history.loadUrl(link.attr("href").substring(1)); }
     });
   },
 
@@ -115,6 +129,7 @@ var app = {
       new app.views.AspectMembership({el: this});
     });
     app.sidebar = new app.views.Sidebar();
+    app.backToTop = new app.views.BackToTop({el: $(document)});
   },
 
   /* mixpanel wrapper function */

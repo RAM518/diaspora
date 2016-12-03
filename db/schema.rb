@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
   create_table "aspect_memberships", force: :cascade do |t|
     t.integer  "aspect_id",  limit: 4, null: false
     t.integer  "contact_id", limit: 4, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "aspect_memberships", ["aspect_id", "contact_id"], name: "index_aspect_memberships_on_aspect_id_and_contact_id", unique: true, using: :btree
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
   create_table "aspect_visibilities", force: :cascade do |t|
     t.integer  "shareable_id",   limit: 4,                    null: false
     t.integer  "aspect_id",      limit: 4,                    null: false
-    t.datetime "created_at",                                  null: false
-    t.datetime "updated_at",                                  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "shareable_type", limit: 255, default: "Post", null: false
   end
 
@@ -45,8 +45,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
   create_table "aspects", force: :cascade do |t|
     t.string   "name",             limit: 255,                 null: false
     t.integer  "user_id",          limit: 4,                   null: false
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "contacts_visible",             default: true,  null: false
     t.integer  "order_id",         limit: 4
     t.boolean  "chat_enabled",                 default: false
@@ -93,8 +93,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.string   "guid",                    limit: 255,                    null: false
     t.text     "author_signature",        limit: 65535
     t.text     "parent_author_signature", limit: 65535
-    t.datetime "created_at",                                             null: false
-    t.datetime "updated_at",                                             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "likes_count",             limit: 4,     default: 0,      null: false
     t.string   "commentable_type",        limit: 60,    default: "Post", null: false
   end
@@ -106,8 +106,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
   create_table "contacts", force: :cascade do |t|
     t.integer  "user_id",    limit: 4,                 null: false
     t.integer  "person_id",  limit: 4,                 null: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "sharing",              default: false, null: false
     t.boolean  "receiving",            default: false, null: false
   end
@@ -119,8 +119,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.integer  "conversation_id", limit: 4,             null: false
     t.integer  "person_id",       limit: 4,             null: false
     t.integer  "unread",          limit: 4, default: 0, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "conversation_visibilities", ["conversation_id", "person_id"], name: "index_conversation_visibilities_usefully", unique: true, using: :btree
@@ -131,8 +131,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.string   "subject",    limit: 255
     t.string   "guid",       limit: 255, null: false
     t.integer  "author_id",  limit: 4,   null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "conversations", ["author_id"], name: "conversations_author_id_fk", using: :btree
@@ -150,8 +150,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.integer  "sender_id",    limit: 4
     t.integer  "recipient_id", limit: 4
     t.integer  "aspect_id",    limit: 4
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "service",      limit: 255
     t.string   "identifier",   limit: 255
     t.boolean  "admin",                      default: false
@@ -169,8 +169,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.string   "guid",                    limit: 255
     t.text     "author_signature",        limit: 65535
     t.text     "parent_author_signature", limit: 65535
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "target_type",             limit: 60,                   null: false
   end
 
@@ -202,8 +202,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.integer  "author_id",               limit: 4,     null: false
     t.string   "guid",                    limit: 255,   null: false
     t.text     "text",                    limit: 65535, null: false
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.text     "author_signature",        limit: 65535
     t.text     "parent_author_signature", limit: 65535
   end
@@ -214,8 +214,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
   create_table "notification_actors", force: :cascade do |t|
     t.integer  "notification_id", limit: 4
     t.integer  "person_id",       limit: 4
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "notification_actors", ["notification_id", "person_id"], name: "index_notification_actors_on_notification_id_and_person_id", unique: true, using: :btree
@@ -227,8 +227,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.integer  "target_id",    limit: 4
     t.integer  "recipient_id", limit: 4,                  null: false
     t.boolean  "unread",                   default: true, null: false
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "type",         limit: 255
   end
 
@@ -271,8 +271,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.string   "diaspora_handle",       limit: 255,                   null: false
     t.text     "serialized_public_key", limit: 65535,                 null: false
     t.integer  "owner_id",              limit: 4
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "closed_account",                      default: false
     t.integer  "fetch_status",          limit: 4,     default: 0
   end
@@ -307,8 +307,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
   create_table "pods", force: :cascade do |t|
     t.string   "host",       limit: 255
     t.boolean  "ssl"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "poll_answers", force: :cascade do |t|
@@ -327,8 +327,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.string   "guid",                    limit: 255
     t.text     "author_signature",        limit: 65535
     t.text     "parent_author_signature", limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
   end
 
   add_index "poll_participations", ["poll_id"], name: "index_poll_participations_on_poll_id", using: :btree
@@ -338,8 +338,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.integer  "status_message_id", limit: 4,   null: false
     t.boolean  "status"
     t.string   "guid",              limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
   add_index "polls", ["status_message_id"], name: "index_polls_on_status_message_id", using: :btree
@@ -356,8 +356,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.string   "remote_photo_name",     limit: 255
     t.string   "random_string",         limit: 255
     t.string   "processed_image",       limit: 255
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "unprocessed_image",     limit: 255
     t.string   "object_url",            limit: 255
     t.string   "image_url",             limit: 255
@@ -402,8 +402,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.text     "bio",              limit: 65535
     t.boolean  "searchable",                     default: true,  null: false
     t.integer  "person_id",        limit: 4,                     null: false
-    t.datetime "created_at",                                     null: false
-    t.datetime "updated_at",                                     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "location",         limit: 255
     t.string   "full_name",        limit: 70
     t.boolean  "nsfw",                           default: false
@@ -431,12 +431,12 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.string   "item_type",  limit: 255,                   null: false
     t.boolean  "reviewed",                 default: false
     t.text     "text",       limit: 65535
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.integer  "user_id",    limit: 4,                     null: false
   end
 
-  add_index "reports", ["item_id"], name: "index_reports_on_item_id", using: :btree
+  add_index "reports", ["item_id"], name: "index_post_reports_on_post_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.integer  "person_id",  limit: 4
@@ -452,8 +452,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.string   "access_token",  limit: 255
     t.string   "access_secret", limit: 255
     t.string   "nickname",      limit: 255
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "services", ["type", "uid"], name: "index_services_on_type_and_uid", length: {"type"=>64, "uid"=>nil}, using: :btree
@@ -461,8 +461,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
 
   create_table "share_visibilities", force: :cascade do |t|
     t.integer  "shareable_id",   limit: 4,                   null: false
-    t.datetime "created_at",                                 null: false
-    t.datetime "updated_at",                                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "hidden",                    default: false,  null: false
     t.integer  "contact_id",     limit: 4,                   null: false
     t.string   "shareable_type", limit: 60, default: "Post", null: false
@@ -476,8 +476,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
   create_table "simple_captcha_data", force: :cascade do |t|
     t.string   "key",        limit: 40
     t.string   "value",      limit: 12
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
   end
 
   add_index "simple_captcha_data", ["key"], name: "idx_key", using: :btree
@@ -485,8 +485,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
   create_table "tag_followings", force: :cascade do |t|
     t.integer  "tag_id",     limit: 4, null: false
     t.integer  "user_id",    limit: 4, null: false
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "tag_followings", ["tag_id", "user_id"], name: "index_tag_followings_on_tag_id_and_user_id", unique: true, using: :btree
@@ -504,7 +504,7 @@ ActiveRecord::Schema.define(version: 20150724152052) do
   end
 
   add_index "taggings", ["created_at"], name: "index_taggings_on_created_at", using: :btree
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+  add_index "taggings", ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
   add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", length: {"taggable_id"=>nil, "taggable_type"=>95, "context"=>95}, using: :btree
   add_index "taggings", ["taggable_id", "taggable_type", "tag_id"], name: "index_taggings_uniquely", unique: true, using: :btree
 
@@ -518,8 +518,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
   create_table "user_preferences", force: :cascade do |t|
     t.string   "email_type", limit: 255
     t.integer  "user_id",    limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: :cascade do |t|
@@ -529,7 +529,7 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.boolean  "disable_mail",                                     default: false, null: false
     t.string   "language",                           limit: 255
     t.string   "email",                              limit: 255,   default: "",    null: false
-    t.string   "encrypted_password",                 limit: 255,   default: "",    null: false
+    t.string   "encrypted_password",                 limit: 128,   default: "",    null: false
     t.string   "invitation_token",                   limit: 60
     t.datetime "invitation_sent_at"
     t.string   "reset_password_token",               limit: 255
@@ -539,8 +539,8 @@ ActiveRecord::Schema.define(version: 20150724152052) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip",                 limit: 255
     t.string   "last_sign_in_ip",                    limit: 255
-    t.datetime "created_at",                                                       null: false
-    t.datetime "updated_at",                                                       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "invitation_service",                 limit: 127
     t.string   "invitation_identifier",              limit: 127
     t.integer  "invitation_limit",                   limit: 4

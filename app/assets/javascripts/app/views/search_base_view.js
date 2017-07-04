@@ -7,6 +7,7 @@ app.views.SearchBase = app.views.Base.extend({
     if(options.customSearch) { this.setupCustomSearch(); }
     this.setupTypeahead();
     if(options.autoselect) { this.setupAutoselect(); }
+    this.setupTypeaheadAvatarFallback();
   },
 
   bloodhoundTokenizer: function(str) {
@@ -28,9 +29,13 @@ app.views.SearchBase = app.views.Base.extend({
     };
 
     // Allow bloodhound to look for remote results if there is a route given in the options
-    if(options.remoteRoute) {
+    if (options.remoteRoute && options.remoteRoute.url) {
+      var extraParameters = "";
+      if (options.remoteRoute.extraParameters) {
+        extraParameters += "&" + options.remoteRoute.extraParameters;
+      }
       bloodhoundOptions.remote = {
-        url: options.remoteRoute + ".json?q=%QUERY",
+        url: options.remoteRoute.url + ".json?q=%QUERY" + extraParameters,
         wildcard: "%QUERY",
         transform: this.transformBloodhoundResponse.bind(this)
       };
@@ -104,6 +109,12 @@ app.views.SearchBase = app.views.Base.extend({
     this.typeaheadInput.on("typeahead:render", function() {
       self._selectSuggestion(self.$(".tt-menu .tt-suggestion").first());
     });
+  },
+
+  setupTypeaheadAvatarFallback: function() {
+    this.typeaheadInput.on("typeahead:render", function() {
+      this.setupAvatarFallback(this.$el);
+    }.bind(this));
   },
 
   ignorePersonForSuggestions: function(person) {

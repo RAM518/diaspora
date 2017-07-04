@@ -2,16 +2,13 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
-require 'sidekiq/web'
+require "sidekiq/web"
 require "sidekiq/cron/web"
+Sidekiq::Web.set :sessions, false # disable rack session cookie
 
 Diaspora::Application.routes.draw do
 
   resources :report, except: %i(edit new show)
-
-  if Rails.env.production?
-    mount RailsAdmin::Engine => '/admin_panel', :as => 'rails_admin'
-  end
 
   constraints ->(req) { req.env["warden"].authenticate?(scope: :user) &&
                         req.env['warden'].user.admin? } do
@@ -38,6 +35,7 @@ Diaspora::Application.routes.draw do
     resources :poll_participations, only: :create
     resources :likes, only: %i(create destroy index)
     resources :comments, only: %i(new create destroy index)
+    resources :reshares, only: :index
   end
 
   get 'p/:id' => 'posts#show', :as => 'short_post'
@@ -101,11 +99,11 @@ Diaspora::Application.routes.draw do
 
   resource :user, only: %i(edit destroy), shallow: true do
     put :edit, action: :update
-    get :getting_started_completed
     post :export_profile
     get :download_profile
     post :export_photos
     get :download_photos
+    post :auth_token
   end
 
   controller :users do
@@ -181,12 +179,6 @@ Diaspora::Application.routes.draw do
     scope "/auth", :as => "auth" do
       get ':provider/callback' => :create
       get :failure
-    end
-  end
-
-  namespace :api do
-    namespace :v1 do
-      resources :tokens, :only => [:create, :destroy]
     end
   end
 

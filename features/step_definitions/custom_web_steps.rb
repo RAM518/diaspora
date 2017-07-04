@@ -210,34 +210,9 @@ end
 And /^I scroll down$/ do
   page.execute_script("window.scrollBy(0,3000000)")
 end
-And /^I scroll down on the notifications dropdown$/ do
-  page.execute_script("$('.notifications').scrollTop(350)")
-end
 
 Then /^I should have scrolled down$/ do
   expect(page.evaluate_script("window.pageYOffset")).to be > 0
-end
-
-Then /^I should have scrolled down on the notification dropdown$/ do
-  expect(page.evaluate_script("$('.notifications').scrollTop()")).to be > 0
-end
-
-
-Then /^the notification dropdown should be visible$/ do
-  expect(find(:css, "#notification-dropdown")).to be_visible
-end
-
-Then /^the notification dropdown scrollbar should be visible$/ do
-  find(:css, ".ps-active-y").should be_visible
-end
-
-Then /^there should be (\d+) notifications loaded$/ do |n|
-  result = page.evaluate_script("$('.media.stream-element').length")
-  result.should == n.to_i
-end
-
-And "I wait for notifications to load" do
-  page.should_not have_selector(".loading")
 end
 
 When /^I resize my window to 800x600$/ do
@@ -313,6 +288,14 @@ Then /^I should see the Bitcoin address$/ do
   find("#bitcoin_address")['value'].should == "AAAAAA"
 end
 
+Given /^I have configured a Liberapay username$/ do
+  AppConfig.settings.liberapay_username = "BBBBBB"
+end
+
+Then /^I should see the Liberapay donate button$/ do
+  find("#liberapay-button")["href"].should == "https://liberapay.com/BBBBBB/donate"
+end
+
 Given /^"([^"]*)" is hidden$/ do |selector|
   page.should have_selector(selector, visible: false)
   page.should_not have_selector(selector)
@@ -320,9 +303,4 @@ end
 
 Then(/^I should have a validation error on "(.*?)"$/) do |field_list|
   check_fields_validation_error field_list
-end
-
-And /^I activate the first hovercard after loading the notifications page$/ do
-  page.should have_css '.notifications .hovercardable'
-  first('.notifications .hovercardable').hover
 end

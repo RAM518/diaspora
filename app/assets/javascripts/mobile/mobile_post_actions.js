@@ -35,6 +35,9 @@
           Diaspora.Mobile.PostActions.showLoader(link);
         },
         success: onSuccess,
+        error: function(response) {
+          Diaspora.Mobile.Alert.handleAjaxError(response);
+        },
         complete: function() {
           Diaspora.Mobile.PostActions.hideLoader(link);
         }
@@ -61,6 +64,9 @@
           Diaspora.Mobile.PostActions.showLoader(link);
         },
         success: onSuccess,
+        error: function(response) {
+          Diaspora.Mobile.Alert.handleAjaxError(response);
+        },
         complete: function() {
           Diaspora.Mobile.PostActions.hideLoader(link);
         }
@@ -98,8 +104,8 @@
           success: function() {
             Diaspora.Mobile.PostActions.toggleActive(link);
           },
-          error: function() {
-            alert(Diaspora.I18n.t("failed_to_reshare"));
+          error: function(response) {
+            Diaspora.Mobile.Alert.handleAjaxError(response);
           },
           complete: function() {
             Diaspora.Mobile.PostActions.hideLoader(link);

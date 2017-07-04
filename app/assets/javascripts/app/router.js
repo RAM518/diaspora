@@ -139,7 +139,7 @@ app.Router = Backbone.Router.extend({
   notifications: function() {
     this._loadContacts();
     this.renderAspectMembershipDropdowns($(document));
-    new app.views.Notifications({el: "#notifications_container"});
+    new app.views.Notifications({el: "#notifications_container", collection: app.notificationsCollection});
   },
 
   peopleSearch: function() {
@@ -217,6 +217,7 @@ app.Router = Backbone.Router.extend({
     app.shortcuts = app.shortcuts || new app.views.StreamShortcuts({el: $(document)});
     if ($("#publisher").length !== 0) {
       app.publisher = app.publisher || new app.views.Publisher({collection: app.stream.items});
+      app.page.setupAvatarFallback($(".main-stream-publisher"));
     }
 
     $("#main_stream").html(app.page.render().el);

@@ -2,8 +2,6 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
-require 'spec_helper'
-
 describe PostsHelper, :type => :helper do
 
   describe '#post_page_title' do
@@ -17,6 +15,13 @@ describe PostsHelper, :type => :helper do
         expect(message).to receive(:title)
         post = double(message: message)
         post_page_title(post)
+      end
+    end
+
+    context "with a reshare" do
+      it "returns 'Reshare by...'" do
+        reshare = FactoryGirl.create(:reshare, author: alice.person)
+        expect(post_page_title(reshare)).to eq I18n.t("posts.show.reshare_by", author: reshare.author_name)
       end
     end
   end

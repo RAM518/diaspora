@@ -3,6 +3,7 @@
 #   the COPYRIGHT file.
 
 class User < ActiveRecord::Base
+  include AuthenticationToken
   include Connecting
   include Querying
   include SocialActions
@@ -16,7 +17,7 @@ class User < ActiveRecord::Base
   scope :halfyear_actives, ->(time = Time.now) { logged_in_since(time - 6.month) }
   scope :active, -> { joins(:person).where(people: {closed_account: false}) }
 
-  devise :token_authenticatable, :database_authenticatable, :registerable,
+  devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :lockable, :lastseenable, :lock_strategy => :none, :unlock_strategy => :none
 
@@ -430,6 +431,7 @@ class User < ActiveRecord::Base
     return unless AppConfig.settings.welcome_message.enabled? && AppConfig.admins.account?
     sender_username = AppConfig.admins.account.get
     sender = User.find_by(username: sender_username)
+    return if sender.nil?
     conversation = sender.build_conversation(
       participant_ids: [sender.person.id, person.id],
       subject:         AppConfig.settings.welcome_message.subject.get,

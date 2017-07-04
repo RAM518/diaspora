@@ -9,16 +9,14 @@
 //= require autosize
 //= require charcount
 //= require jquery-placeholder
-//= require rails-timeago
-//= require jquery.events.input
-//= require jquery.infinitescroll-custom
+//= require jquery.timeago
 //= require jquery-ui/core
 //= require jquery-ui/widget
 //= require jquery-ui/mouse
 //= require jquery-ui/sortable
 //= require keycodes
 //= require jquery.autoSuggest.custom
-//= require fileuploader-custom
+//= require fine-uploader/fine-uploader.core
 //= require handlebars.runtime
 //= require posix-bracket-expressions
 //= require markdown-it
@@ -30,7 +28,7 @@
 //= require markdown-it-sup
 //= require highlightjs
 //= require clear-form
-//= require typeahead.bundle.js
+//= require corejs-typeahead
 //= require app/app
 //= require diaspora
 //= require_tree ./helpers

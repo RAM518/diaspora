@@ -19,9 +19,9 @@ module PublishingCukeHelpers
   end
 
   def upload_file_with_publisher(path)
-    page.execute_script(%q{$("input[name='file']").css("opacity", '1');})
+    page.execute_script(%q{$("input[name='qqfile']").css("opacity", '1');})
     with_scope("#publisher_textarea_wrapper") do
-      attach_file("file", Rails.root.join(path).to_s)
+      attach_file("qqfile", Rails.root.join(path).to_s)
       # wait for the image to be ready
       page.assert_selector(".publisher_photo.loading", count: 0)
     end
@@ -35,6 +35,8 @@ module PublishingCukeHelpers
   def submit_publisher
     txt = find("#publisher #status_message_fake_text").value
     find("#publisher .btn-primary").click
+    # wait for the publisher to be closed
+    expect(find("#publisher")["class"]).to include("closed")
     # wait for the content to appear
     expect(find("#main_stream")).to have_content(txt)
   end

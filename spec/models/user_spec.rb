@@ -2,8 +2,6 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
-require 'spec_helper'
-
 describe User, :type => :model do
   context "relations" do
     context "#conversations" do
@@ -874,6 +872,12 @@ describe User, :type => :model do
 
       it "should send no welcome message if no podmin is specified" do
         AppConfig.admins.account = ""
+        user.send_welcome_message
+        expect(user.conversations.count).to eq 0
+      end
+
+      it "should send no welcome message if podmin is invalid" do
+        AppConfig.admins.account = "invalid"
         user.send_welcome_message
         expect(user.conversations.count).to eq 0
       end

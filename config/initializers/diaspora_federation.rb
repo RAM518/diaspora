@@ -72,8 +72,7 @@ DiasporaFederation.configure do |config|
     end
 
     on :fetch_public_key do |diaspora_id|
-      key = Person.find_or_fetch_by_identifier(diaspora_id).serialized_public_key
-      OpenSSL::PKey::RSA.new(key) unless key.nil?
+      Person.find_or_fetch_by_identifier(diaspora_id).public_key
     end
 
     on :fetch_related_entity do |entity_type, guid|
@@ -93,7 +92,9 @@ DiasporaFederation.configure do |config|
       end
     end
 
-    on :receive_entity do |entity, _sender, recipient_id|
+    on :receive_entity do |entity, sender, recipient_id|
+      Person.by_account_identifier(sender).pod.try(:schedule_check_if_needed)
+
       case entity
       when DiasporaFederation::Entities::AccountDeletion
         Diaspora::Federation::Receive.account_deletion(entity)

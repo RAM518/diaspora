@@ -2,30 +2,10 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
-require 'spec_helper'
-
 describe ApplicationHelper, :type => :helper do
   before do
     @user = alice
     @person = FactoryGirl.create(:person)
-  end
-
-  describe "#contacts_link" do
-    before do
-      def current_user
-        @current_user
-      end
-    end
-
-    it 'links to community spotlight' do
-      @current_user = FactoryGirl.create(:user)
-      expect(contacts_link).to eq(community_spotlight_path)
-    end
-
-    it 'links to contacts#index' do
-      @current_user = alice
-      expect(contacts_link).to eq(contacts_path)
-    end
   end
 
   describe "#all_services_connected?" do
@@ -88,15 +68,57 @@ describe ApplicationHelper, :type => :helper do
     end
   end
 
+  describe "#donations_enabled?" do
+    it "returns false when nothing is set" do
+      expect(helper.donations_enabled?).to be false
+    end
+
+    it "returns true when the paypal donations is enabled" do
+      AppConfig.settings.paypal_donations.enable = true
+      expect(helper.donations_enabled?).to be true
+    end
+
+    it "returns true when the liberapay username is set" do
+      AppConfig.settings.liberapay_username = "foo"
+      expect(helper.donations_enabled?).to be true
+    end
+
+    it "returns true when the bitcoin_address is set" do
+      AppConfig.settings.bitcoin_address = "bar"
+      expect(helper.donations_enabled?).to be true
+    end
+
+    it "returns true when all the donations are enabled" do
+      AppConfig.settings.paypal_donations.enable = true
+      AppConfig.settings.liberapay_username = "foo"
+      AppConfig.settings.bitcoin_address = "bar"
+      expect(helper.donations_enabled?).to be true
+    end
+  end
+
   describe "#changelog_url" do
+    let(:changelog_url_setting) {
+      double.tap {|double| allow(AppConfig).to receive(:settings).and_return(double(changelog_url: double)) }
+    }
+
     it "defaults to master branch changleog" do
+      expect(changelog_url_setting).to receive(:present?).and_return(false)
       expect(AppConfig).to receive(:git_revision).and_return(nil)
       expect(changelog_url).to eq("https://github.com/diaspora/diaspora/blob/master/Changelog.md")
     end
 
     it "displays the changelog for the current git revision if set" do
+      expect(changelog_url_setting).to receive(:present?).and_return(false)
       expect(AppConfig).to receive(:git_revision).twice.and_return("123")
       expect(changelog_url).to eq("https://github.com/diaspora/diaspora/blob/123/Changelog.md")
+    end
+
+    it "displays the configured changelog url if set" do
+      expect(changelog_url_setting).to receive(:present?).and_return(true)
+      expect(changelog_url_setting).to receive(:get)
+        .and_return("https://github.com/diaspora/diaspora/blob/develop/Changelog.md")
+      expect(AppConfig).not_to receive(:git_revision)
+      expect(changelog_url).to eq("https://github.com/diaspora/diaspora/blob/develop/Changelog.md")
     end
   end
 

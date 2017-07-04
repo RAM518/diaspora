@@ -2,10 +2,7 @@
 #   licensed under the Affero General Public License version 3 or later.  See
 #   the COPYRIGHT file.
 
-require 'spec_helper'
-
 describe Person, :type => :model do
-
   before do
     @user = bob
     @person = FactoryGirl.create(:person)
@@ -479,6 +476,19 @@ describe Person, :type => :model do
         people = Person.search(@robert_grimm.diaspora_handle, @user, only_contacts: true)
         expect(people).to eq([@robert_grimm])
       end
+    end
+  end
+
+  describe "#public_key" do
+    it "returns the public key for the person" do
+      key = @person.public_key
+      expect(key).to be_a(OpenSSL::PKey::RSA)
+      expect(key.to_s).to eq(@person.serialized_public_key)
+    end
+
+    it "handles broken keys and returns nil" do
+      @person.update_attributes(serialized_public_key: "broken")
+      expect(@person.public_key).to be_nil
     end
   end
 

@@ -22,17 +22,18 @@ Diaspora::Application.configure do
   # config.assets.css_compressor = :sass
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
-  config.assets.compile = false
+  #config.assets.compile = false
+  config.assets.compile = true
 
   # Generate digests for assets URLs
   config.assets.digest = true
 
   # Specifies the header that your server uses for sending files
-  # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
+  config.action_dispatch.x_sendfile_header = "X-Sendfile" # for apache
   # config.action_dispatch.x_sendfile_header = 'X-Accel-Redirect' # for nginx
 
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  # config.force_ssl = true
+  config.force_ssl = true
 
   # Log level
   config.log_level = :info
@@ -59,7 +60,7 @@ Diaspora::Application.configure do
   # config.assets.precompile += %w( search.js )
 
   # Disable delivery errors, bad email addresses will be ignored
-  # config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.raise_delivery_errors = false
 
   # Enable autoload for rake tasks
   config.dependency_loading = true if $rails_rake_task
@@ -72,7 +73,7 @@ Diaspora::Application.configure do
   config.active_support.deprecation = :notify
 
   # For nginx:
-  config.action_dispatch.x_sendfile_header = "X-Accel-Redirect"
+  # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect"
 
   if AppConfig.environment.assets.host.present?
     config.action_controller.asset_host = AppConfig.environment.assets.host.get
